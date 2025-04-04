@@ -1,4 +1,5 @@
-require("dotenv").config();
+require("dotenv").config(); 
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -13,9 +14,19 @@ app.use(cors());
 // Routes
 app.use("/api/users", userRoutes);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error(err));
+// MongoDB connection
+const mongoURI = process.env.MONGO_URI;
+if (!mongoURI) {
+  console.error("MONGO_URI not found in environment variables.");
+  process.exit(1); // Exit the app if the connection string is missing
+}
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+mongoose.connect(mongoURI)
+.then(() => console.log("✅ Connected to MongoDB"))
+.catch(err => {
+  console.error("❌ Failed to connect to MongoDB:", err);
+  process.exit(1); // Exit the app if DB connection fails
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
