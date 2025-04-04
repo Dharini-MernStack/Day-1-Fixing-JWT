@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "PPP",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
