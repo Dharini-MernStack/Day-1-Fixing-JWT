@@ -7,19 +7,26 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!username || !password) {
+      alert("Username and password are required.");
+      return;
+    }
 
-    // ISSUE: Sending password as plain text
-    const response = await axios.post("http://localhost:5000/api/users/register", {
-      username,
-      password,
-    });
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/register", {
+        username,
+        password,
+      });
 
-    alert(response.data.message);
+      alert(response.data.message);
+    } catch (error) {
+      alert(error.response?.data?.message || "Registration failed");
+    }
   };
 
   return (
     <div>
-      <h2>Register (Broken Implementation)</h2>
+      <h2>Register</h2>
       <form onSubmit={handleRegister}>
         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
