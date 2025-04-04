@@ -1,43 +1,42 @@
-# MERN Authentication Project
+# MERN Authentication Project 🔐
 
-This project is intentionally broken and contains security vulnerabilities in authentication. Your task is to identify and fix these issues.
+A secure and modern authentication system built using the **MERN stack** (MongoDB, Express.js, React.js, Node.js). This project addresses common security vulnerabilities and includes best practices for safe user authentication.
 
-## Issues to Fix
-### MongoDB Connection Not Established
-- **Problem:** The MONGO_URI is stored in .env, but it is not used anywhere in the backend.
-- **Issue:** The "MongoDB connected" message is hardcoded, which is misleading because the database connection is not actually happening.
+---
 
-### 1. Password is Stored in Plain Text
-- **File:** `routes/userRoutes.js`
-- **Issue:** The password is stored directly in the database without hashing, making it a security risk.
-- **Where to Fix:** Add password hashing before saving user data.
+## ✅ Features
 
-### 2. JWT Secret is Hardcoded
-- **File:** `routes/userRoutes.js`
-- **Issue:** The JWT secret is directly written in the code, making it vulnerable to leaks.
-- **Where to Fix:** Move the secret to an environment variable.
+- Secure user registration and login
+- Passwords hashed with **bcrypt**
+- JWT authentication using **secret from `.env`**
+- Input validation for user data
+- Clear and specific error messages
+- MongoDB connection using environment variables
 
-### 3. Plain Text Password Comparison
-- **File:** `routes/userRoutes.js`
-- **Issue:** The password is compared in plain text instead of using a hashing function.
-- **Where to Fix:** Use a secure password verification method.
+---
 
-### 4. No Input Validation for Username and Password
-- **File:** `routes/userRoutes.js`
-- **Issue:** User input is not validated, allowing empty values.
-- **Where to Fix:** Implement validation before saving user data.
+## 🛠️ Technologies Used
 
-### 5. Generic Error Messages in Authentication
-- **File:** `routes/userRoutes.js`
-- **Issue:** The login response does not specify if the username or password is incorrect, which can be misleading for users.
-- **Where to Fix:** Improve error handling and messages.
+- MongoDB + Mongoose
+- Express.js
+- Node.js
+- React.js
+- bcrypt for password hashing
+- JSON Web Tokens (JWT)
+- dotenv for environment variables
+- Postman for API testing
 
-## How to Verify Your Fixes
-- **Run the backend:** `npm start`
-- **Test Registration and Login:** Use Postman or the frontend UI to test authentication.
-- **Check Database:** Ensure passwords are stored securely in hashed format.
-- **Inspect JWT:** Verify that the JWT secret is coming from the environment variable.
-- **Input Validation:** Try submitting empty or invalid data and ensure proper validation messages appear.
+---
 
-Once you've implemented these fixes, your authentication system will be more secure! 🚀
+## 🔐 Security Fixes Implemented
 
+| Issue | Fix |
+|------|-----|
+| MongoDB not connected | Connected using `MONGO_URI` from `.env` |
+| Password stored in plain text | Used **bcrypt** to hash passwords before saving |
+| Hardcoded JWT secret | Moved to **`.env`** file |
+| Plain text password comparison | Used `bcrypt.compare()` to verify hashed passwords |
+| No input validation | Added validation for empty/invalid username & password |
+| Generic error messages | Improved clarity of login errors |
+
+---
