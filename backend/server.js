@@ -13,9 +13,11 @@ app.use(cors());
 // Routes
 app.use("/api/users", userRoutes);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB (FIX: Removed deprecated options)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error(err));
+  .catch(err => console.error("MongoDB connection error:", err));
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+
+const PORT = process.env.PORT || 5001; 
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
