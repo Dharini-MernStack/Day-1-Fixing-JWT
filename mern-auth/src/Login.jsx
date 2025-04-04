@@ -7,24 +7,29 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!username || !password) {
+      alert("Please enter both username and password.");
+      return;
+    }
 
-    // ISSUE: Hardcoded JWT secret (very insecure)
-    const response = await axios.post("http://localhost:5000/api/users/login", {
-      username,
-      password,
-    });
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/login", {
+        username,
+        password,
+      });
 
-    if (response.data.token) {
-      localStorage.setItem("token", response.data.token);
-      alert("Login successful!");
-    } else {
-      alert("Invalid credentials");
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        alert("Login successful!");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Login failed");
     }
   };
 
   return (
     <div>
-      <h2>Login (Broken Implementation)</h2>
+      <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
