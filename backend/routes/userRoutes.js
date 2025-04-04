@@ -7,9 +7,25 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   const { username, password } = req.body;
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
+  }
 
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
+  }
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: "Username already taken" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ username, password: hashedPassword });
     await user.save();
 
@@ -24,13 +40,17 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ message: "Username and password are required" });
+  }
+
   try {
     const user = await User.findOne({ username });
-
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
-
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
